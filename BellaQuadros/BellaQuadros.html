@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bella Quadros | Sua Cabeleireira de Confiança</title>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>✂️</text></svg>">
+
+    <meta name="description" content="Bella Quadros - Cortes, cores e tratamentos com carinho e profissionalismo no seu bairro.">
+    <meta name="theme-color" content="#e0a387">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --cor-primaria: #333333;
+            --cor-secundaria: #d48c6a; /* Tom Terracota Acolhedor */
+            --cor-fundo: #fafaf9;
+            --cor-branca: #ffffff;
+            --cor-verde-wpp: #25D366;
+            
+            /* Fontes Atualizadas para Simplicidade */
+            --fonte-titulo: 'Playfair Display', serif; 
+            --fonte-texto: 'Lato', sans-serif;
+            
+            --shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--fonte-texto); background-color: var(--cor-fundo); color: var(--cor-primaria); line-height: 1.6; overflow-x: hidden; }
+
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 1s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* HEADER */
+        header {
+            background-color: rgba(255, 255, 255, 0.98);
+            position: fixed; width: 100%; top: 0; z-index: 1000; height: 70px;
+            display: flex; align-items: center; justify-content: space-between; padding: 0 5%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .logo { font-family: var(--fonte-titulo); font-size: 1.8rem; color: var(--cor-primaria); text-decoration: none; font-weight: 700; letter-spacing: -0.5px; }
+        .logo span { color: var(--cor-secundaria); }
+
+        .nav-menu { display: flex; align-items: center; gap: 20px; list-style: none; }
+        .nav-menu a { text-decoration: none; color: var(--cor-primaria); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; transition: 0.3s; letter-spacing: 1px; }
+        .nav-menu a:hover { color: var(--cor-secundaria); }
+
+        .menu-toggle { display: none; font-size: 1.5rem; cursor: pointer; color: var(--cor-primaria); }
+
+        .status-badge {
+            font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; gap: 6px; 
+            padding: 5px 12px; border-radius: 20px; background: #eee; font-family: var(--fonte-texto);
+        }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; }
+        .pulsing { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+        /* HERO */
+        .hero {
+            height: 85vh;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1560869713-7d0a29430803?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat fixed;
+            display: flex; align-items: center; justify-content: center; text-align: center;
+            color: white; margin-top: 70px;
+        }
+        .hero h1 { font-family: var(--fonte-titulo); font-size: clamp(2.5rem, 6vw, 4rem); margin-bottom: 15px; line-height: 1.2; }
+        .hero p { font-size: 1rem; font-weight: 400; margin-bottom: 30px; letter-spacing: 2px; text-transform: uppercase; }
+        
+        .btn-principal {
+            padding: 15px 40px; background: var(--cor-secundaria); color: white; border: none;
+            font-weight: 700; text-transform: uppercase; cursor: pointer; transition: 0.3s; border-radius: 30px;
+            font-family: var(--fonte-texto); font-size: 0.9rem; letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(212, 140, 106, 0.4);
+        }
+        .btn-principal:hover { transform: scale(1.05); background: #c27652; }
+
+        /* SEÇÃO SOBRE */
+        .sobre-container { display: flex; align-items: center; gap: 50px; flex-wrap: wrap; }
+        .sobre-img { flex: 1; min-width: 300px; height: 450px; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); }
+        .sobre-img img { width: 100%; height: 100%; object-fit: cover; }
+        .sobre-texto { flex: 1.5; min-width: 300px; }
+        .sobre-texto h2 { font-family: var(--fonte-titulo); font-size: 2.5rem; margin-bottom: 20px; color: var(--cor-secundaria); line-height: 1.2; }
+
+        /* SERVIÇOS */
+        .section { padding: 80px 5%; }
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-family: var(--fonte-titulo); font-size: 2.5rem; margin-bottom: 10px; }
+        
+        .carousel-wrapper { position: relative; }
+        .nav-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 45px; height: 45px; border-radius: 50%; background: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: none; cursor: pointer;
+            z-index: 5; color: var(--cor-secundaria);
+        }
+        .btn-prev { left: -20px; } .btn-next { right: -20px; }
+        
+        .services-grid {
+            display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; 
+            scrollbar-width: none; scroll-behavior: smooth; padding: 20px 0;
+        }
+        .services-grid::-webkit-scrollbar { display: none; }
+        .service-card {
+            min-width: 300px; background: white; border-radius: 12px; overflow: hidden; 
+            box-shadow: var(--shadow); scroll-snap-align: start; transition: 0.3s;
+        }
+        .service-card:hover { transform: translateY(-5px); }
+        .card-img { height: 250px; }
+        .card-img img { width: 100%; height: 100%; object-fit: cover; }
+        .card-content { padding: 25px; text-align: center; }
+        .card-content h3 { font-family: var(--fonte-titulo); font-size: 1.5rem; margin-bottom: 5px; }
+        .price { color: var(--cor-secundaria); font-weight: 700; font-size: 1.2rem; display: block; margin: 15px 0; }
+
+        /* GALERIA */
+        .gallery-grid { display: flex; overflow-x: auto; gap: 15px; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 10px; }
+        .gallery-grid::-webkit-scrollbar { display: none; }
+        .gallery-item { min-width: 280px; height: 350px; border-radius: 12px; overflow: hidden; scroll-snap-align: center; box-shadow: var(--shadow); }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .gallery-item:hover img { transform: scale(1.05); }
+
+        /* WHATSAPP FLUTUANTE */
+        .wpp-float {
+            position: fixed; bottom: 30px; right: 30px; background: var(--cor-verde-wpp);
+            color: white; width: 60px; height: 60px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 2000; transition: 0.3s;
+        }
+        .wpp-float:hover { transform: scale(1.1); }
+
+        /* RESPONSIVIDADE E MENU HAMBÚRGUER */
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; } /* Mostra o ícone no mobile */
+            
+            .nav-menu { 
+                display: none; /* Esconde o menu por padrão no mobile */
+                position: absolute; top: 70px; left: 0; width: 100%;
+                background: white; flex-direction: column; padding: 20px;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1); border-top: 1px solid #eee;
+            }
+            .nav-menu.active { display: flex; } /* Mostra quando ativo */
+            
+            .nav-btn { display: none; }
+            .section { padding: 60px 5%; }
+            .gallery-item { min-width: 85vw; }
+            .swipe-hint { display: block; text-align: center; font-size: 0.8rem; color: #999; margin-bottom: 10px; font-weight: 700; }
+        }
+        @media (min-width: 769px) {
+            .swipe-hint { display: none; }
+            .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); overflow: visible; }
+            .gallery-item { min-width: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">Bella <span>Quadros</span></a>
+        
+        <div class="menu-toggle" id="mobile-menu"><i class="fas fa-bars"></i></div>
+
+        <nav>
+            <ul class="nav-menu" id="nav-list">
+                <li><a href="#sobre">A Bella</a></li>
+                <li><a href="#servicos">Serviços</a></li>
+                <li><a href="#galeria">Salão</a></li>
+                <li><a href="#contato">Localização</a></li>
+                <li>
+                    <div class="status-badge">
+                        <div class="status-dot"></div>
+                        <span id="status-texto">...</span>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="reveal">
+            <h1>Cuidando da sua beleza <br> com carinho.</h1>
+            <p>Profissionalismo e confiança perto de você</p>
+            <button onclick="document.getElementById('servicos').scrollIntoView()" class="btn-principal">Ver Tabela de Preços</button>
+        </div>
+    </section>
+
+    <section class="section" id="sobre">
+        <div class="sobre-container reveal">
+            <div class="sobre-img">
+                <img src="https://images.unsplash.com/photo-1590649662123-2f2ee193fc3b?q=80&w=600" alt="Bella Quadros">
+            </div>
+            <div class="sobre-texto">
+                <span style="color: var(--cor-secundaria); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem;">Prazer, sou a Bella</span>
+                <h2>Sua nova cabeleireira favorita.</h2>
+                <p>Com mais de 10 anos de tesoura e escova, meu objetivo é simples: fazer você sair do meu salão se sentindo mais leve e bonita. Aqui no bairro, prezo pelo atendimento personalizado, sem pressa, e usando os melhores produtos para o seu fio.</p>
+                <p style="margin-top: 15px;">Seja para um corte de rotina ou aquela transformação completa, estou aqui para te ouvir.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="servicos" style="background: #fdfdfd;">
+        <div class="section-title reveal">
+            <h2>Nossos Serviços</h2>
+            <p style="font-size: 1.1rem; color: #666;">Qualidade de centro com preço de bairro</p>
+        </div>
+
+        <div class="carousel-wrapper reveal">
+            <div class="swipe-hint">Arraste para o lado <i class="fas fa-arrow-right"></i></div>
+            <button class="nav-btn btn-prev" onclick="scrollSlide(-320)"><i class="fas fa-chevron-left"></i></button>
+            <button class="nav-btn btn-next" onclick="scrollSlide(320)"><i class="fas fa-chevron-right"></i></button>
+            <div class="services-grid" id="services-grid"></div>
+        </div>
+    </section>
+
+    <section class="section" id="galeria">
+        <div class="section-title reveal">
+            <h2>Nosso Espaço</h2>
+            <p style="font-size: 1.1rem; color: #666;">Um ambiente simples, limpo e acolhedor.</p>
+        </div>
+        
+        <div class="swipe-hint">Arraste para ver as fotos <i class="fas fa-arrow-right"></i></div>
+
+        <div class="gallery-grid reveal">
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?q=80&w=600" alt="Interior"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1521590832169-7dad1a9b7d66?q=80&w=600" alt="Cadeiras"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=600" alt="Lavatório"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?q=80&w=600" alt="Produtos"></div>
+        </div>
+    </section>
+
+    <section id="contato" class="section" style="background: #f3f3f2;">
+        <div class="section-title reveal">
+            <h2>Onde Estamos</h2>
+            <p style="font-size: 1.1rem; color: #666;">Fácil de chegar, fácil de estacionar.</p>
+        </div>
+        <div style="width: 100%; height: 400px; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow);" class="reveal">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.1975!2d-46.6!3d-23.5!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDMwJzAwLjAiUyA0NsKwMzYnMDAuMCJX!5e0!3m2!1spt-BR!2sbr!4v1" width="100%" height="100%" style="border:0;" loading="lazy"></iframe>
+        </div>
+    </section>
+
+    <footer style="background: var(--cor-primaria); color: white; padding: 60px 5%; text-align: center;">
+        <h3 class="logo" style="color: white; margin-bottom: 20px; font-size: 2rem;">Bella <span>Quadros</span></h3>
+        <p>Rua do Salão, 123 - Bairro Esperança</p>
+        <div style="margin: 25px 0;">
+            <a href="#" style="color: white; font-size: 1.5rem; margin: 0 15px;"><i class="fab fa-instagram"></i></a>
+            <a href="#" style="color: white; font-size: 1.5rem; margin: 0 15px;"><i class="fab fa-facebook"></i></a>
+        </div>
+        <p style="font-size: 0.8rem; opacity: 0.6;">© 2026 Bella Quadros. Feito com carinho para nossas clientes.</p>
+    </footer>
+
+    <a href="https://wa.me/5511999999999?text=Oi Bella! Gostaria de agendar um horário." class="wpp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        const servicos = [
+            { t: "Corte Feminino", d: "Lavagem, corte e secagem rápida.", p: "R$ 60,00", i: "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=400" },
+            { t: "Escova Modelada", d: "Aquela escova que dura o final de semana todo.", p: "R$ 45,00", i: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=400" },
+            { t: "Mechas e Luzes", d: "Técnica de iluminação com proteção do fio.", p: "Sob Consulta", i: "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=400" },
+            { t: "Hidratação Profunda", d: "Tratamento de choque para cabelos ressecados.", p: "R$ 80,00", i: "https://images.unsplash.com/photo-1560869713-7d0a29430803?w=400" }
+        ];
+
+        function render() {
+            const container = document.getElementById('services-grid');
+            servicos.forEach(s => {
+                container.innerHTML += `
+                <div class="service-card">
+                    <div class="card-img"><img src="${s.i}"></div>
+                    <div class="card-content">
+                        <h3>${s.t}</h3>
+                        <p>${s.d}</p>
+                        <span class="price">${s.p}</span>
+                        <button class="btn-principal" style="padding: 10px 25px; font-size: 0.8rem; width: 100%; border-radius: 8px;" onclick="location.href='https://wa.me/5511999999999'">Agendar</button>
+                    </div>
+                </div>`;
+            });
+        }
+
+        function scrollSlide(val) {
+            document.getElementById('services-grid').scrollBy({ left: val, behavior: 'smooth' });
+        }
+
+        function status() {
+            const h = new Date().getHours();
+            const d = new Date().getDay();
+            const aberto = (d >= 2 && d <= 6 && h >= 9 && h < 19);
+            const dot = document.querySelector('.status-dot');
+            const txt = document.getElementById('status-texto');
+            dot.style.background = aberto ? '#25D366' : '#ff4d4d';
+            if(aberto) dot.classList.add('pulsing');
+            txt.innerText = aberto ? 'Aberto Agora' : 'Fechado';
+        }
+
+        const observer = new IntersectionObserver(ents => {
+            ents.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); });
+        }, { threshold: 0.1 });
+
+        // Lógica do Menu Mobile
+        document.getElementById('mobile-menu').addEventListener('click', () => {
+            document.getElementById('nav-list').classList.toggle('active');
+        });
+        
+        // Fechar menu ao clicar em um link
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('nav-list').classList.remove('active');
+            });
+        });
+
+        window.onload = () => {
+            render(); status();
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        };
+    </script>
+</body>
+</html>

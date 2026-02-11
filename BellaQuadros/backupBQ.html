@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Beleza & Tranças | Agendamento Online</title>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✂️</text></svg>">
+
+    <meta name="description" content="Salão especializado em Tranças, Cortes e Visagismo.">
+    <meta name="theme-color" content="#c5a059">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BeautySalon",
+      "name": "Studio Beleza & Tranças",
+      "image": "https://images.unsplash.com/photo-1562322140-8baeececf3df",
+      "telephone": "+5511999999999",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "São Paulo",
+        "addressRegion": "SP"
+      }
+    }
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --cor-primaria: #1a1a1a;
+            --cor-secundaria: #c5a059;
+            --cor-fundo: #fcfcfc;
+            --cor-branca: #ffffff;
+            --cor-verde: #25D366;
+            --fonte-titulo: 'Playfair Display', serif;
+            --fonte-texto: 'Lato', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--fonte-texto); background-color: var(--cor-fundo); color: var(--cor-primaria); overflow-x: hidden; }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* HEADER */
+        header {
+            background-color: var(--cor-branca); box-shadow: 0 2px 15px rgba(0,0,0,0.04);
+            position: fixed; width: 100%; top: 0; z-index: 1000; height: 70px;
+            display: flex; align-items: center; justify-content: space-between; padding: 0 5%;
+        }
+        
+        .logo { font-family: var(--fonte-titulo); font-size: 1.5rem; font-weight: 700; cursor: pointer; }
+        .logo span { color: var(--cor-secundaria); }
+
+        .nav-menu { display: flex; align-items: center; gap: 25px; list-style: none; }
+        .nav-menu a { text-decoration: none; color: var(--cor-primaria); font-weight: 700; text-transform: uppercase; font-size: 0.85rem; transition: 0.3s; }
+        .nav-menu a:hover { color: var(--cor-secundaria); }
+
+        .status-badge {
+            font-size: 0.75rem; color: #888; font-weight: 700; text-transform: uppercase; 
+            display: flex; align-items: center; gap: 6px; border-left: 1px solid #eee; padding-left: 20px;
+        }
+        .status-dot { width: 8px; height: 8px; background: #ccc; border-radius: 50%; }
+        .status-dot.pulsing { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+        .menu-toggle { display: none; font-size: 1.5rem; cursor: pointer; }
+
+        /* HERO */
+        .hero {
+            height: 90vh;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1580618672591-eb180b1a973f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') center/cover fixed;
+            display: flex; align-items: center; justify-content: center; text-align: center;
+            color: var(--cor-branca); margin-top: 70px; padding: 0 20px;
+        }
+        .hero h1 { font-family: var(--fonte-titulo); font-size: 3rem; margin-bottom: 20px; }
+        .btn-principal {
+            padding: 16px 45px; background-color: var(--cor-secundaria); color: var(--cor-branca);
+            border: none; border-radius: 50px; font-weight: 700; text-transform: uppercase; cursor: pointer;
+            transition: 0.3s; margin-top: 20px;
+        }
+        .btn-principal:hover { transform: scale(1.05); background-color: #a38245; }
+
+        /* CARROSSEL */
+        .section { padding: 80px 5%; }
+        .section-title { text-align: center; margin-bottom: 40px; }
+        .section-title h2 { font-family: var(--fonte-titulo); font-size: 2.5rem; }
+        .divider { width: 60px; height: 3px; background: var(--cor-secundaria); margin: 10px auto; }
+
+        .carousel-wrapper { position: relative; width: 100%; }
+        .services-grid {
+            display: flex; gap: 25px; overflow-x: auto; padding: 20px 5px;
+            scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch;
+        }
+        .services-grid::-webkit-scrollbar { height: 6px; }
+        .services-grid::-webkit-scrollbar-thumb { background: var(--cor-secundaria); border-radius: 10px; }
+
+        .nav-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 45px; height: 45px; border-radius: 50%; background: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); border: none; cursor: pointer;
+            z-index: 10; display: flex; align-items: center; justify-content: center;
+            color: var(--cor-secundaria); font-size: 1.2rem; transition: 0.3s;
+        }
+        .nav-btn:hover { background: var(--cor-secundaria); color: white; }
+        .btn-prev { left: -20px; }
+        .btn-next { right: -20px; }
+
+        .service-card {
+            min-width: 300px; max-width: 300px; background: white;
+            border: 1px solid #eee; border-radius: 12px; overflow: hidden;
+            scroll-snap-align: center; display: flex; flex-direction: column;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .card-img { height: 200px; background: #eee; }
+        .card-img img { width: 100%; height: 100%; object-fit: cover; }
+        .card-content { padding: 25px; flex: 1; display: flex; flex-direction: column; }
+        .price-tag { font-weight: 700; color: var(--cor-primaria); font-size: 1.1rem; }
+        .btn-agendar-sm {
+            padding: 8px 20px; border: 1px solid var(--cor-primaria); border-radius: 20px;
+            background: transparent; cursor: pointer; font-weight: 700; transition: 0.3s;
+        }
+        .btn-agendar-sm:hover { background: var(--cor-primaria); color: white; }
+
+        /* DEPOIMENTOS */
+        .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .testimonial-card {
+            background: white; padding: 40px; border-radius: 12px; position: relative;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; transition: 0.3s;
+        }
+        .testimonial-card:hover { transform: translateY(-5px); border-color: var(--cor-secundaria); }
+        .quote-icon { font-size: 2rem; color: var(--cor-secundaria); opacity: 0.2; position: absolute; top: 20px; left: 20px; }
+        .client-stars { color: #FFD700; margin-bottom: 15px; font-size: 0.9rem; }
+        .client-text { font-style: italic; color: #555; font-size: 0.95rem; margin-bottom: 20px; }
+        .client-info h4 { font-family: var(--fonte-titulo); font-size: 1.1rem; margin-bottom: 2px; }
+        .client-info span { font-size: 0.75rem; color: #999; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* FAQ */
+        .faq-section { background-color: white; max-width: 800px; margin: 0 auto; border-radius: 15px; padding: 40px; box-shadow: 0 5px 30px rgba(0,0,0,0.03); }
+        details { background-color: #fcfcfc; margin-bottom: 15px; border-radius: 8px; border: 1px solid #eee; overflow: hidden; }
+        summary { padding: 20px; cursor: pointer; font-weight: 700; position: relative; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+        summary::-webkit-details-marker { display: none; }
+        summary::after { content: '+'; font-size: 1.5rem; color: var(--cor-secundaria); transition: 0.3s; }
+        details[open] summary::after { content: '-'; transform: rotate(180deg); }
+        details p { padding: 0 20px 20px 20px; color: #666; font-size: 0.95rem; border-top: 1px solid #eee; margin-top: 10px; padding-top: 15px; }
+
+        /* MAPA (ALTERADO: SEM FILTRO DE COR) */
+        .map-section {
+            padding: 20px 5%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .map-container {
+            width: 100%;
+            max-width: 400px;
+            height: 400px;
+            /* Filtro removido para o mapa ficar sempre colorido */
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 80px;
+        }
+        .map-container iframe { width: 100%; height: 100%; border: 0; }
+        
+        .footer-social a { color: white; font-size: 1.6rem; margin: 0 10px; transition: 0.3s; display: inline-block; }
+        .footer-social a:hover { color: var(--cor-secundaria); transform: scale(1.1); }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: absolute; top: 70px; left: 0; width: 100%; background: white;
+                flex-direction: column; padding: 40px; display: none; text-align: center; gap: 20px;
+            }
+            .nav-menu.active { display: flex; }
+            .menu-toggle { display: block; }
+            .nav-btn { display: none; }
+            .service-card { min-width: 85vw; }
+            .faq-section { padding: 20px; width: 100%; }
+            .status-badge { border-left: none; padding-left: 0; justify-content: center; }
+            
+            .map-container { max-width: 300px; height: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="main-header">
+        <div class="header-left">
+            <div class="logo" onclick="window.scrollTo(0,0)">Beauty<span>&</span>Braids</div>
+        </div>
+        
+        <div class="menu-toggle" id="mobile-menu"><i class="fas fa-bars"></i></div>
+        
+        <nav>
+            <ul class="nav-menu" id="nav-list">
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#servicos">Serviços</a></li>
+                <li><a href="#depoimentos">Depoimentos</a></li>
+                <li><a href="#faq">Dúvidas</a></li>
+                <li><a href="#localizacao">Local</a></li>
+                <li>
+                    <div id="status-badge" class="status-badge">
+                        <div class="status-dot"></div>
+                        <span id="status-texto">Verificando...</span>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero reveal" id="inicio">
+        <div>
+            <h1>Sua Autoestima <br> Começa Aqui.</h1>
+            <button onclick="document.getElementById('servicos').scrollIntoView()" class="btn-principal">Ver Catálogo</button>
+        </div>
+    </section>
+
+    <section class="section" id="servicos">
+        <div class="section-title reveal">
+            <h2>Nossos Serviços</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="carousel-wrapper reveal">
+            <button class="nav-btn btn-prev" onclick="scrollServices(-320)" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
+            <button class="nav-btn btn-next" onclick="scrollServices(320)" aria-label="Próximo"><i class="fas fa-chevron-right"></i></button>
+            <div class="services-grid" id="services-grid"></div>
+        </div>
+    </section>
+
+    <section class="section" id="depoimentos">
+        <div class="section-title reveal">
+            <h2>O que dizem nossas clientes</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="testimonials-grid reveal">
+            <div class="testimonial-card">
+                <i class="fas fa-quote-left quote-icon"></i>
+                <div class="client-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p class="client-text">"Simplesmente apaixonada! As tranças ficaram perfeitas e duraram muito mais do que eu esperava."</p>
+                <div class="client-info"><h4>Mariana Silva</h4><span>Box Braids</span></div>
+            </div>
+            <div class="testimonial-card">
+                <i class="fas fa-quote-left quote-icon"></i>
+                <div class="client-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p class="client-text">"Fiz meu Big Chop aqui e me senti muito acolhida. Profissionalismo incrível."</p>
+                <div class="client-info"><h4>Fernanda Souza</h4><span>Corte Transição</span></div>
+            </div>
+            <div class="testimonial-card">
+                <i class="fas fa-quote-left quote-icon"></i>
+                <div class="client-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p class="client-text">"Ambiente super agradável e pontualidade britânica! Recomendo pra todo mundo."</p>
+                <div class="client-info"><h4>Carla Dias</h4><span>Cronograma Capilar</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="faq" style="background-color: white;">
+        <div class="section-title reveal">
+            <h2>Dúvidas Comuns</h2>
+            <div class="divider"></div>
+        </div>
+        <div class="faq-section reveal">
+            <details>
+                <summary>Preciso lavar o cabelo antes de ir?</summary>
+                <p>Para cortes e tratamentos, nós lavamos aqui! Para tranças, pedimos que o cabelo esteja limpo e seco.</p>
+            </details>
+            <details>
+                <summary>Aceitam cartão de crédito?</summary>
+                <p>Sim! Aceitamos Pix, Dinheiro e Cartões de Crédito/Débito.</p>
+            </details>
+            <details>
+                <summary>Vocês atendem crianças?</summary>
+                <p>Sim, atendemos crianças a partir de 5 anos.</p>
+            </details>
+        </div>
+    </section>
+
+    <section id="localizacao" class="map-section reveal">
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.098169607147!2d-46.65390548502209!3d-23.564917484681126!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1620000000000!5m2!1spt-BR!2sbr" loading="lazy" title="Mapa do Salão"></iframe>
+        </div>
+    </section>
+
+    <footer style="background-color: var(--cor-primaria); color: white; padding: 60px 5%; text-align: center;">
+        <div class="logo">Beauty<span>&</span>Braids</div>
+        
+        <div class="footer-social" style="margin-top: 25px; margin-bottom: 25px;">
+            <a href="https://instagram.com" target="_blank" aria-label="Siga-nos no Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+
+        <p>Rua Exemplo, 123 - Seu Bairro</p>
+        <p style="margin-top: 20px; font-size: 0.8rem; opacity: 0.7;">© 2024. Desenvolvido por Kleber Gomes.</p>
+    </footer>
+
+    <div id="cookie-banner" style="position:fixed; bottom:0; left:0; width:100%; background:#222; color:white; padding:15px; text-align:center; font-size:0.8rem; z-index:2000; display:none; box-shadow: 0 -2px 10px rgba(0,0,0,0.2);">
+        Utilizamos cookies para oferecer a melhor experiência.
+        <button onclick="document.getElementById('cookie-banner').style.display='none'" style="margin-left:15px; padding:8px 20px; background:var(--cor-secundaria); border:none; color:white; border-radius:4px; cursor:pointer; font-weight:700;">OK</button>
+    </div>
+
+    <script>
+        const NUMERO_WHATSAPP = "5511999999999"; 
+        
+        const servicosData = [
+            { titulo: "Box Braids", desc: "Tranças soltas, diversas cores. Incluso material Jumbo/Kanekalon.", preco: "R$ 250+", img: "https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=600&q=80" },
+            { titulo: "Trança Nagô", desc: "Trança rasteira desenhada. Ótima durabilidade e estilo.", preco: "R$ 80+", img: "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=600&q=80" },
+            { titulo: "Corte & Visagismo", desc: "Análise de rosto e corte para valorizar seus traços naturais.", preco: "R$ 90,00", img: "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=600&q=80" },
+            { titulo: "Cronograma Capilar", desc: "Recuperação total dos fios. Nutrição e Hidratação profunda.", preco: "R$ 120,00", img: "https://images.unsplash.com/photo-1560869713-7d0a29430803?w=600&q=80" }
+        ];
+
+        function renderizarTudo() {
+            const containerServ = document.getElementById('services-grid');
+            servicosData.forEach(s => {
+                containerServ.innerHTML += `
+                    <div class="service-card">
+                        <div class="card-img"><img src="${s.img}" alt="${s.titulo}" loading="lazy"></div>
+                        <div class="card-content">
+                            <h3>${s.titulo}</h3>
+                            <p>${s.desc}</p>
+                            <div style="margin-top:auto; display:flex; justify-content:space-between; align-items:center;">
+                                <span class="price-tag">${s.preco}</span>
+                                <button class="btn-agendar-sm" onclick="agendar('${s.titulo}')">AGENDAR</button>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function agendar(servico) {
+            const msg = `Olá! Vim pelo site. Gostaria de saber sobre: *${servico}*`;
+            window.open(`https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function scrollServices(pixels) {
+            document.getElementById('services-grid').scrollBy({ left: pixels, behavior: 'smooth' });
+        }
+
+        const FERIADO = false;
+        function verificarStatus() {
+            const agora = new Date();
+            const dia = agora.getDay();
+            const hora = agora.getHours();
+            const diasAbertos = [2, 3, 4, 5, 6]; 
+            const estaAberto = !FERIADO && diasAbertos.includes(dia) && (hora >= 9 && hora < 19);
+            
+            const badge = document.getElementById('status-badge');
+            const texto = document.getElementById('status-texto');
+            const dot = badge.querySelector('.status-dot');
+
+            if (estaAberto) {
+                dot.style.backgroundColor = '#25D366'; dot.classList.add('pulsing');
+                texto.innerText = 'Aberto Agora'; texto.style.color = '#1a1a1a';
+            } else {
+                dot.style.backgroundColor = '#ff4d4d'; dot.classList.remove('pulsing');
+                texto.innerText = 'Fechado'; texto.style.color = '#888';
+            }
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('active'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        document.getElementById('mobile-menu').addEventListener('click', () => {
+            document.getElementById('nav-list').classList.toggle('active');
+        });
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => document.getElementById('nav-list').classList.remove('active'));
+        });
+
+        window.onload = function() {
+            verificarStatus();
+            renderizarTudo();
+            setTimeout(() => document.getElementById('cookie-banner').style.display = 'block', 2000);
+        };
+    </script>
+</body>
+</html>
